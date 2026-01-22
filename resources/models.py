@@ -34,12 +34,15 @@ class Resource(models.Model):
     is_active = models.BooleanField(default=True)
     is_snapshotting = models.BooleanField(default=False)
     registration_date = models.DateTimeField(default=timezone.now)
-    
-    
+    # last_snapshot = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return f"{self.url} - {self.get_monitoring_frequency_display()}"
+
 
 class Snapshot(models.Model):
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
-    capture_date = models.DateTimeField(default=timezone.now) 
+    capture_date = models.DateTimeField(default=timezone.now)
     content_hash = models.TextField()
     status_code = models.IntegerField()
     size = models.IntegerField()
